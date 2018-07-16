@@ -2,7 +2,7 @@
   "name": "twitter-interface",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/aaltamirano1/techdegree-project-7#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "pug": "^2.0.3",
+    "twit": "^2.2.11"
   }
 }
