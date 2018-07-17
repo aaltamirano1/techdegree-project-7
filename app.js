@@ -66,7 +66,11 @@ function buildMessage(result){
 	message.text = result.message_create.message_data.text;
 	let date = new Date(parseInt(result.created_timestamp));
 	message.date = date.getMonth()+'/'+date.getDate()+'/'+date.getFullYear();
-	message.time = date.getHours()+':'+date.getMinutes();
+	if(date.getHours()<=12){
+		message.time = date.getHours()+':'+date.getMinutes()+"am";
+	}else{
+		message.time = (date.getHours()-12)+':'+date.getMinutes()+"pm";
+	}
 	message.sender_id = result.message_create.sender_id;
 	messages.push(message);
 }
@@ -79,7 +83,7 @@ T.get('direct_messages/events/list', {}, function(err, data, response){
 
 
 app.get('/', (req, res) => {
-	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: '438081126'});
+	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: '993944753124278273'});
 });
 
 app.listen(3000, () => {
