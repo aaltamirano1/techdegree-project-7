@@ -15,6 +15,17 @@ var T = new Twit({
   strictSSL:            true,     // optional - requires SSL certificates to be valid.
 });
 
+var me = {};
+T.get('users/lookup', {screen_name: 'holaworld4'}, function(err, data, response){
+	var results = data[0];
+	me.name = results.name;
+	me.username = results.screen_name;
+	me.following = results.friends_count;
+	me.profilePic = results.profile_image_url;
+	me.backgroundPic = results.profile_banner_url;
+});
+
+
 function buildTweet(result){
   var tweet = {};
 	tweet.user = {};
@@ -24,8 +35,8 @@ function buildTweet(result){
 	tweet.text = result.text;
 	tweet.retweets = result.retweet_count;
 	tweet.likes = result.favorite_count;
-	var milliseconds = (new Date()) - (new Date(result.created_at));
-	tweet.timestamp = Math.round(milliseconds/60000);
+	let date = new Date(result.created_at);
+	tweet.timestamp = date.getMonth()+'/'+date.getDate()+'/'+date.getFullYear();
 	tweets.push(tweet);
 }
 
@@ -50,18 +61,25 @@ T.get('friends/list', {screen_name: 'holaworld4', count: 5}, function(err, data,
 	results.forEach(buildFollower);
 });
 
-var dms = [];
-T.get('direct_messages/events/list', {count: 5}, function(err, data, response){
+function buildMessage(result){
+  var message = {};
+	message.text = result.message_create.message_data.text;
+	let date = new Date(parseInt(result.created_timestamp));
+	message.date = date.getMonth()+'/'+date.getDate()+'/'+date.getFullYear();
+	message.time = date.getHours()+':'+date.getMinutes();
+	message.sender_id = result.message_create.sender_id;
+	messages.push(message);
+}
+
+var messages = [];
+T.get('direct_messages/events/list', {}, function(err, data, response){
 	var results = data.events;
-	results.forEach(function(result){
-		dms.push(result.message_create);
-	});
+	results.forEach(buildMessage);
 });
 
-// if id!= mine display text with class (?) else use class (&_?).
 
 app.get('/', (req, res) => {
-	res.render('index', {tweets: tweets, followers: followers, messages: dms.reverse(), userId: '438081126'});
+	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: '438081126'});
 });
 
 app.listen(3000, () => {
