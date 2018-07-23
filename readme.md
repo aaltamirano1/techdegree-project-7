@@ -1,6 +1,6 @@
 # Build a Twitter Interface
 
-Uses Twitter’s REST API to access my Twitter profile information and render it to a user. The page automatically authenticates access to my Twitter profile. It uses this access to populate three columns on the page: my 5 most recent tweets, my 5 most recent friends, and my 5 most recent direct messages. App was created using Express, Pug, and the Twit Module. CSS was already provided as well as a sample html file for reference. JS and Pug files coded from scratch.
+Uses Twitter’s REST API to access your Twitter profile information and render it to a user. The page automatically authenticates access to your Twitter profile. It uses this access to populate three columns on the page: your 5 most recent tweets, your 5 most recent friends, and your 5 most recent direct messages. App was created using Express, Pug, and the Twit Module. CSS was already provided as well as a sample html file for reference. JS and Pug files coded from scratch.
 
 ## Getting Started
 
