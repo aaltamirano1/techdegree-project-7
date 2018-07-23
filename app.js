@@ -16,7 +16,7 @@ var T = new Twit({
 });
 
 var me = {};
-T.get('users/lookup', {screen_name: 'holaworld4'}, function(err, data, response){
+T.get('users/lookup', {user_id: keys.owner_id}, function(err, data, response){
 	var results = data[0];
 	me.name = results.name;
 	me.username = results.screen_name;
@@ -41,7 +41,7 @@ function buildTweet(result){
 }
 
 var tweets = [];
-T.get('statuses/home_timeline', {screen_name: 'holaworld4', count: 5}, function(err, data, response){
+T.get('statuses/home_timeline', {user_id: keys.owner_id, count: 5}, function(err, data, response){
 	var results = data;
 	results.forEach(buildTweet);
 });
@@ -56,7 +56,7 @@ function buildFollower(result){
 }
 
 var followers = [];
-T.get('friends/list', {screen_name: 'holaworld4', count: 5}, function(err, data, response){
+T.get('friends/list', {user_id: keys.owner_id, count: 5}, function(err, data, response){
 	var results = data.users;
 	results.forEach(buildFollower);
 });
@@ -81,9 +81,8 @@ T.get('direct_messages/events/list', {}, function(err, data, response){
 	results.forEach(buildMessage);
 });
 
-
 app.get('/', (req, res) => {
-	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: '993944753124278273'});
+	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: keys.owner_id});
 });
 
 app.listen(3000, () => {

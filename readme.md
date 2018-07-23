@@ -12,7 +12,8 @@ module.exports = {
   consumer_key:         'Your consumer key',
   consumer_secret:      'Your secret consumer key',
   access_token:         'Your access token',
-  access_token_secret:  'Your secret access token'
+  access_token_secret:  'Your secret access token',
+  owner_id:             'Your owner id'
 }
 ```
 4. In the console run the "node app.js" command while in the project folder.
