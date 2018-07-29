@@ -76,7 +76,7 @@ function buildMessage(result){
 }
 
 var messages = [];
-T.get('direct_messages/events/list', {}, function(err, data, response){
+T.get('direct_messages/events/list', {count: 5}, function(err, data, response){
 	var results = data.events;
 	results.forEach(buildMessage);
 });
