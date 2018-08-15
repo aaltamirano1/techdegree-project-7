@@ -16,13 +16,12 @@ var T = new Twit({
 });
 
 var me = {};
-T.get('users/lookup', {user_id: keys.owner_id}, function(err, data, response){
-	var results = data[0];
-	me.name = results.name;
-	me.username = results.screen_name;
-	me.following = results.friends_count;
-	me.profilePic = results.profile_image_url;
-	me.backgroundPic = results.profile_banner_url;
+T.get('account/verify_credentials', {}, function(err, data, response){
+	me.id = data.id;
+	me.name = data.name;
+	me.username = data.screen_name;
+	me.following = data.friends_count;
+	me.profilePic = data.profile_image_url;
 });
 
 
@@ -41,7 +40,7 @@ function buildTweet(result){
 }
 
 var tweets = [];
-T.get('statuses/home_timeline', {user_id: keys.owner_id, count: 5}, function(err, data, response){
+T.get('statuses/user_timeline', { count: 5}, function(err, data, response){
 	var results = data;
 	results.forEach(buildTweet);
 });
@@ -56,7 +55,7 @@ function buildFollower(result){
 }
 
 var followers = [];
-T.get('friends/list', {user_id: keys.owner_id, count: 5}, function(err, data, response){
+T.get('friends/list', { count: 5}, function(err, data, response){
 	var results = data.users;
 	results.forEach(buildFollower);
 });
@@ -82,7 +81,7 @@ T.get('direct_messages/events/list', {count: 5}, function(err, data, response){
 });
 
 app.get('/', (req, res) => {
-	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: keys.owner_id});
+	res.render('index', {me: me, tweets: tweets, followers: followers, messages: messages.reverse(), userId: me.id});
 });
 
 app.listen(3000, () => {
